@@ -1,3 +1,3 @@
-# UniPodCast
+# UniPodcast
 
-The Unified PodCast tool
+The Unified Podcast tool
