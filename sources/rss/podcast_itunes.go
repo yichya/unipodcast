@@ -22,7 +22,7 @@ func ParseRssFeed(client *http.Client, path string, filters []func(s *source.Sou
 	for _, x := range feed.Items {
 		sourceItem := &source.Source{
 			Id:      x.GUID,
-			Title:   x.Title,
+			Title:   strings.TrimSpace(x.Title),
 			PubDate: x.PublishedParsed,
 		}
 		if feed.ITunesExt != nil {

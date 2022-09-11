@@ -16,22 +16,57 @@ func SendStdout(sourceItem *source.Source, target string) error {
 	}
 	fields := strings.Split(target, ",")
 	for _, x := range fields {
-		switch strings.TrimSpace(x) {
+		a := strings.Split(strings.TrimSpace(x), ":")
+		switch a[0] {
+		case "space":
+			{
+				fmt.Print(` `)
+			}
+		case "comma":
+			{
+				fmt.Print(`,`)
+			}
+		case "quote":
+			{
+				fmt.Print(`"`)
+			}
+		case "colon":
+			{
+				fmt.Print(`:`)
+			}
+		case "print":
+			{
+				if len(a) > 1 {
+					fmt.Print(a[1])
+				}
+			}
 		case "id":
 			{
-				fmt.Printf("%s ", sourceItem.Id)
+				fmt.Print(sourceItem.Id)
 			}
 		case "title":
 			{
-				fmt.Printf("%s ", sourceItem.Title)
+				fmt.Print(sourceItem.Title)
+			}
+		case "performer":
+			{
+				fmt.Print(sourceItem.Performer)
 			}
 		case "pub_date":
 			{
 				if sourceItem.PubDate != nil {
-					fmt.Printf("%s ", sourceItem.PubDate.Format(constants.DefaultTimeFormat))
+					fmt.Print(sourceItem.PubDate.Format(constants.DefaultTimeFormat))
 				} else {
-					fmt.Printf("%s ", constants.DefaultTimeFormat)
+					fmt.Print(constants.DefaultTimeFormat)
 				}
+			}
+		case "url":
+			{
+				fmt.Print(sourceItem.FileUrl)
+			}
+		case "endl":
+			{
+				fmt.Println()
 			}
 		}
 	}
