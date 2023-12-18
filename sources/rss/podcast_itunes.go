@@ -11,46 +11,26 @@ import (
 
 const PodcastItunes = "rss_podcast_itunes"
 
-func ParseRssFeed(client *http.Client, path string, filters []func(s *source.Source) bool) ([]*source.Source, error) {
-	p := gofeed.NewParser()
-	p.Client = client
-	feed, err := p.ParseURL(path)
-	if err != nil {
-		return nil, err
-	}
-	var resp []*source.Source
-	for _, x := range feed.Items {
-		sourceItem := &source.Source{
-			Id:      x.GUID,
-			Title:   strings.TrimSpace(x.Title),
-			PubDate: x.PublishedParsed,
+func ParsePodcastItunes(client *http.Client, path string, filters []func(s *source.Source) bool) ([]*source.Source, error) {
+	return ParseRss(client, path, filters, func(f *gofeed.Feed, i *gofeed.Item, s *source.Source) {
+		if f.ITunesExt != nil {
+			s.Performer = f.ITunesExt.Author
 		}
-		if feed.ITunesExt != nil {
-			sourceItem.Performer = feed.ITunesExt.Author
-		}
-		if x.ITunesExt != nil {
-			s := strings.Split(strings.TrimSpace(x.ITunesExt.Duration), ":")
-			for index, di := range s {
+		if i.ITunesExt != nil {
+			d := strings.Split(strings.TrimSpace(i.ITunesExt.Duration), ":")
+			for index, di := range d {
 				if v, err := strconv.ParseInt(di, 10, 64); err != nil {
 					continue
 				} else {
-					sourceItem.Duration += int64(math.Pow(float64(60), float64(len(s)-1-index))) * v
+					s.Duration += int64(math.Pow(float64(60), float64(len(d)-1-index))) * v
 				}
 			}
 		}
-		if len(x.Authors) > 0 {
-			sourceItem.Performer = x.Authors[0].Name
+		if len(i.Authors) > 0 {
+			s.Performer = i.Authors[0].Name
 		}
-		if len(x.Enclosures) > 0 {
-			sourceItem.FileUrl = x.Enclosures[0].URL
+		if len(i.Enclosures) > 0 {
+			s.FileUrl = i.Enclosures[0].URL
 		}
-		for _, f := range filters {
-			if f != nil {
-				if f(sourceItem) {
-					resp = append(resp, sourceItem)
-				}
-			}
-		}
-	}
-	return resp, nil
+	})
 }

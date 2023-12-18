@@ -12,7 +12,11 @@ func ParseFeed(sourceType, sourceUrl, sourceProxy string, filters []func(i *sour
 	switch sourceType {
 	case rss.PodcastItunes:
 		{
-			return rss.ParseRssFeed(client, sourceUrl, filters)
+			return rss.ParsePodcastItunes(client, sourceUrl, filters)
+		}
+	case rss.RsshubBilibili:
+		{
+			return rss.ParseRsshubBilibili(client, sourceUrl, filters)
 		}
 	}
 	return nil, fmt.Errorf("unknown sourceType %s", sourceType)

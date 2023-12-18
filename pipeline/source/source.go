@@ -5,12 +5,15 @@ import (
 )
 
 type Source struct {
-	Id        string
-	Title     string
-	Duration  int64
-	Performer string
-	PubDate   *time.Time
-	FileUrl   string
+	Id          string
+	Title       string
+	Duration    int64
+	Performer   string
+	PubDate     *time.Time
+	FileUrl     string
+	Description string
+	Url         string
+	PicUrl      string
 }
 
 type Pagination struct {
