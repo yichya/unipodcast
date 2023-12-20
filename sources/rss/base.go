@@ -25,12 +25,17 @@ func ParseRss(client *http.Client, path string, filters []func(s *source.Source)
 		if extraProperties != nil {
 			extraProperties(feed, x, sourceItem)
 		}
+		pass := true
 		for _, f := range filters {
 			if f != nil {
-				if f(sourceItem) {
-					resp = append(resp, sourceItem)
+				if !f(sourceItem) {
+					pass = false
+					break
 				}
 			}
+		}
+		if pass {
+			resp = append(resp, sourceItem)
 		}
 	}
 	return resp, nil

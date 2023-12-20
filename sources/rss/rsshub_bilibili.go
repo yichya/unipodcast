@@ -24,8 +24,10 @@ func ParseRsshubBilibili(client *http.Client, path string, filters []func(s *sou
 						if h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling != nil {
 							if h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling != nil {
 								if h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling != nil {
-									if len(h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling.NextSibling.Attr) > 0 {
-										s.Url = h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling.NextSibling.Attr[0].Val
+									if h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling.NextSibling != nil {
+										if len(h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling.NextSibling.Attr) > 0 {
+											s.Url = h.FirstChild.FirstChild.NextSibling.FirstChild.NextSibling.NextSibling.NextSibling.NextSibling.Attr[0].Val
+										}
 									}
 								}
 							}
