@@ -18,6 +18,10 @@ func ParseFeed(sourceType, sourceUrl, sourceProxy string, filters []func(i *sour
 		{
 			return rss.ParseRsshubBilibili(client, sourceUrl, filters)
 		}
+	case rss.Youtube:
+		{
+			return rss.ParseYoutube(client, sourceUrl, filters)
+		}
 	}
 	return nil, fmt.Errorf("unknown sourceType %s", sourceType)
 }
