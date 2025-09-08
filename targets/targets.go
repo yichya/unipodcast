@@ -17,6 +17,10 @@ func SendOneFeed(source *source.Source, proxyUrl string, targetType string, targ
 		{
 			return telegram.SendBotAudio(client, source, targetArgs)
 		}
+	case telegram.BotText:
+		{
+			return telegram.SendBotText(client, source, targetArgs)
+		}
 	case echo.Stdout:
 		{
 			return echo.SendStdout(source, targetArgs)
@@ -24,6 +28,10 @@ func SendOneFeed(source *source.Source, proxyUrl string, targetType string, targ
 	case wxwork_bot.WxworkBotNews:
 		{
 			return wxwork_bot.SendWxWorkBotNews(client, source, targetArgs)
+		}
+	case wxwork_bot.WxWorkBotText:
+		{
+			return wxwork_bot.SendWxWorkBotText(client, source, targetArgs)
 		}
 	}
 	return fmt.Errorf("unknown targetType %s", targetType)
