@@ -3,10 +3,11 @@ package wxwork_bot
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/yichya/unipodcast/pipeline/source"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/yichya/unipodcast/pipeline/source"
 )
 
 const WxworkBotNews = "wxwork_bot_news"
@@ -15,7 +16,7 @@ type Article struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Url         string `json:"url"`
-	PicUrl      string `json:"picurl"`
+	PicUrl      string `json:"picurl,omitempty"`
 }
 
 type News struct {
